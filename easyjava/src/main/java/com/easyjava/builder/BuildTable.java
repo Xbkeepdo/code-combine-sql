@@ -4,10 +4,7 @@ import com.easyjava.utils.PropertiesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class BuildTable {
 
@@ -23,6 +20,7 @@ public class BuildTable {
         String password = PropertiesUtils.getString("db.password");
         try {
             Class.forName(driverName);
+            conn = DriverManager.getConnection(url,user,password);
         } catch (Exception e) {
             logger.error("数据库连接失败",e);
         }
@@ -38,7 +36,7 @@ public class BuildTable {
             while(tableResult.next()){
                 String tableName = tableResult.getString("name");
                 String comment = tableResult.getString("comment");
-                logger.info("tableName:(),comment:()",tableName,comment);
+                logger.info("tableName:{},comment:{}",tableName,comment);
             }
 
         } catch (Exception e){
@@ -54,6 +52,13 @@ public class BuildTable {
             if(ps != null){
                 try {
                     ps.close();
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if(conn != null){
+                try {
+                    conn.close();
                 } catch (SQLException e){
                     e.printStackTrace();
                 }
