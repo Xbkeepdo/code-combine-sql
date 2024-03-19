@@ -1,10 +1,15 @@
 package com.easyjava.builder;
 
+import com.easyjava.bean.Constants;
+import com.easyjava.bean.TableInfo;
 import com.easyjava.utils.PropertiesUtils;
+import com.easyjava.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BuildTable {
 
@@ -30,13 +35,32 @@ public class BuildTable {
         PreparedStatement ps =  null;
         ResultSet tableResult = null;
 
+        List<TableInfo> tableInfoList = new ArrayList();
         try {
             ps = conn.prepareStatement(SQL_SHOW_TABLE_STATUS);
             tableResult = ps.executeQuery();
             while(tableResult.next()){
                 String tableName = tableResult.getString("name");
                 String comment = tableResult.getString("comment");
-                logger.info("tableName:{},comment:{}",tableName,comment);
+                //logger.info("tableName:{},comment:{}",tableName,comment);
+
+
+
+                String beanName = tableName;
+                if(Constants.IGNORE_TABLE_PREFIX){ //如果忽略前缀
+                    beanName = tableName.substring(beanName.indexOf("_")+1);
+                }
+                beanName = processField(beanName,true); //把表名改成首字母大写
+               // logger.info("bean:{}",beanName);
+
+                TableInfo tableInfo = new TableInfo();
+                tableInfo.setTableName(tableName);
+                tableInfo.setBeanName(beanName);
+                tableInfo.setComment(comment);
+                tableInfo.setBeanParamName(beanName + Constants.SUFFIX_BEAN_PARAM);
+
+                logger.info(tableInfo.getTableName()+tableInfo.getBeanParamName());
+
             }
 
         } catch (Exception e){
@@ -65,4 +89,18 @@ public class BuildTable {
             }
         }
     }
+
+    private static String processField(String field,Boolean upperCaseFistLetter) {
+        StringBuffer sb = new StringBuffer();
+        String[] fields = field.split("_");
+        sb.append(upperCaseFistLetter ?StringUtils.upperCaseFirstLetter(fields[0]) : fields[0]);
+
+        for(int i =1 ,len  = fields.length; i< len ;  i++){
+           sb.append(StringUtils.upperCaseFirstLetter(fields[i]));
+        }
+        return sb.toString();
+
+    }
+
+
 }
