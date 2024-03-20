@@ -11,22 +11,22 @@ public class TableInfo {
     /**
      *表名
      */
-    private static String tableName;
+    private  String tableName;
 
     /**
      * bean名
      */
-    private static String beanName;
+    private  String beanName;
 
     /**
      * 参数名称
      */
-    private static String beanParamName;
+    private  String beanParamName;
 
     /**
      * 表注释
      */
-    private static String comment;
+    private  String comment;
 
     /**
      * 字段信息
@@ -53,36 +53,36 @@ public class TableInfo {
      */
     private boolean haveBigDecimal;
 
-    public static String getTableName() {
+    public  String getTableName() {
         return tableName;
     }
 
-    public static void setTableName(String tableName) {
-        TableInfo.tableName = tableName;
+    public  void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
-    public static String getBeanName() {
+    public  String getBeanName() {
         return beanName;
     }
 
-    public static void setBeanName(String beanName) {
-        TableInfo.beanName = beanName;
+    public  void setBeanName(String beanName) {
+        this.beanName = beanName;
     }
 
-    public static String getBeanParamName() {
+    public  String getBeanParamName() {
         return beanParamName;
     }
 
-    public static void setBeanParamName(String beanParamName) {
-        TableInfo.beanParamName = beanParamName;
+    public  void setBeanParamName(String beanParamName) {
+        this.beanParamName = beanParamName;
     }
 
-    public static String getComment() {
+    public  String getComment() {
         return comment;
     }
 
-    public static void setComment(String comment) {
-        TableInfo.comment = comment;
+    public  void setComment(String comment) {
+        this.comment = comment;
     }
 
     public List<FieldInfo> getFieldList() {
