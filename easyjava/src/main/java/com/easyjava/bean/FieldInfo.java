@@ -15,7 +15,7 @@ public class FieldInfo {
     /**
      * 字段类型
      */
-    private String javaName;
+    private String javaType;
 
     /**
      * 字段备注
@@ -51,12 +51,12 @@ public class FieldInfo {
         this.sqlType = sqlType;
     }
 
-    public String getJavaName() {
-        return javaName;
+    public String getJavaType() {
+        return javaType;
     }
 
-    public void setJavaName(String javaName) {
-        this.javaName = javaName;
+    public void setJavaType(String javaType) {
+        this.javaType = javaType;
     }
 
     public String getComment() {
