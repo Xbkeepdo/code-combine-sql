@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;;
 import java.math.BigDecimal;
 
 /**
  * @Description:商品信息实体类
  * @Author:xb
- * @date: 2024/03/21
+ * @date: 2024/03/30
  */
 public class ProductInfo implements Serializable {
 	/**
@@ -20,6 +21,7 @@ public class ProductInfo implements Serializable {
 	/**
 	 * 公司ID
 	 */
+	@JsonIgnore
 	private String companyId;
 
 	/**
@@ -67,104 +69,114 @@ public class ProductInfo implements Serializable {
 	private Long stock;
 
 	/**
-	 * 状态
+	 * 状态 0： 未上架 1：已上架
 	 */
+	@JsonIgnore
 	private Integer status;
 
-	//getter和setter方法
-
-
-	public Integer getId() {
-		return id;
-	}
+	/**
+	 * 0:删除 1：正常
+	 */
+	private Integer isDel;
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getCompanyId() {
-		return companyId;
+	public Integer getId() {
+		return this.id;
 	}
 
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
 
-	public String getCode() {
-		return code;
+	public String getCompanyId() {
+		return this.companyId;
 	}
 
 	public void setCode(String code) {
 		this.code = code;
 	}
 
-	public String getProductName() {
-		return productName;
+	public String getCode() {
+		return this.code;
 	}
 
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
 
-	public BigDecimal getPrice() {
-		return price;
+	public String getProductName() {
+		return this.productName;
 	}
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
-	public Integer getSkuType() {
-		return skuType;
+	public BigDecimal getPrice() {
+		return this.price;
 	}
 
 	public void setSkuType(Integer skuType) {
 		this.skuType = skuType;
 	}
 
-	public Integer getColorType() {
-		return colorType;
+	public Integer getSkuType() {
+		return this.skuType;
 	}
 
 	public void setColorType(Integer colorType) {
 		this.colorType = colorType;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
+	public Integer getColorType() {
+		return this.colorType;
 	}
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
+	public Date getCreateTime() {
+		return this.createTime;
 	}
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
-	public Long getStock() {
-		return stock;
+	public Date getCreateDate() {
+		return this.createDate;
 	}
 
 	public void setStock(Long stock) {
 		this.stock = stock;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public Long getStock() {
+		return this.stock;
 	}
 
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "自增ID：" + (id == null ? "空" : id ) + "，公司ID：" + (companyId == null ? " 空" : companyId ) + "，商品编号：" + (code == null ? " 空" : code ) + "，商品名称：" + (productName == null ? " 空" : productName ) + "，价格：" + (price == null ? " 空" : price ) + "，sku类型：" + (skuType == null ? " 空" : skuType ) + "，颜色类型：" + (colorType == null ? " 空" : colorType ) + "，创建时间：" + (createTime == null ? " 空" : createTime ) + "，创建日期：" + (createDate == null ? " 空" : createDate ) + "，库存：" + (stock == null ? " 空" : stock ) + "，状态：" + (status == null ? " 空" : status );
+	public Integer getStatus() {
+		return this.status;
 	}
 
+	public void setIsDel(Integer isDel) {
+		this.isDel = isDel;
+	}
+
+	public Integer getIsDel() {
+		return this.isDel;
+	}
+
+	@Override
+	public String toString() {
+		return "自增ID:" + (id == null ? "空" : id) + ",公司ID:" + (companyId == null ? "空" : companyId) + ",商品编号:" + (code == null ? "空" : code) + ",商品名称:" + (productName == null ? "空" : productName) + ",价格:" + (price == null ? "空" : price) + ",sku类型:" + (skuType == null ? "空" : skuType) + ",颜色类型:" + (colorType == null ? "空" : colorType) + ",创建时间:" + (createTime == null ? "空" : TimeUtils.format(createTime, TimeFormatEnums.ISO_LOCAL_DATE_TIME_REPLACET2SPACE.getFormat())) + ",创建日期:" + (createDate == null ? "空" : TimeUtils.format(createDate, TimeFormatEnums.ISO_LOCAL_DATE.getFormat())) + ",库存:" + (stock == null ? "空" : stock) + ",状态 0： 未上架 1：已上架:" + (status == null ? "空" : status) + ",0:删除 1：正常:" + (isDel == null ? "空" : isDel) ;
+	}
 }

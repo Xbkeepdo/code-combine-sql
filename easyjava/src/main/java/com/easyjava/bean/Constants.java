@@ -11,11 +11,14 @@ public class Constants {
     private static String PATH_JAVA = "java";
     private static String PATH_RESOURCES= "resources";
     public static String SUFFIX_BEAN_PARAM;
-
     public static String PATH_BASE;
+    public static String PATH_PO;
+    public static String PATH_UTILS;
+
+
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
-    public static String PATH_PO;
+    public static String PACKAGE_UTILS;
 
     //需要忽略的属性
     public static String IGNORE_BEAN_TOJSON_FIELD;
@@ -55,10 +58,12 @@ public class Constants {
 
         PACKAGE_BASE = PropertiesUtils.getString("package.base");
         PACKAGE_PO = PACKAGE_BASE + "." + PropertiesUtils.getString("package.po");
+        PACKAGE_UTILS = PACKAGE_BASE + "." + PropertiesUtils.getString("package.utils");
 
         PATH_BASE = PropertiesUtils.getString("path.base");
-        PATH_BASE = PATH_BASE  +PATH_JAVA+ "/"+PACKAGE_BASE.replace(".","/");
-        PATH_PO = PATH_BASE +"/"+ PropertiesUtils.getString("package.po").replace(".","/");
+        PATH_BASE = PATH_BASE  +PATH_JAVA+ "/";
+        PATH_PO = PATH_BASE +"/"+ PACKAGE_PO.replace(".","/");
+        PATH_UTILS = PATH_BASE +"/"+ PACKAGE_UTILS.replace(".","/");
 
     }
 

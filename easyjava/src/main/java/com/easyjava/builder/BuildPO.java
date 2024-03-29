@@ -4,6 +4,7 @@ import com.easyjava.bean.Constants;
 import com.easyjava.bean.FieldInfo;
 import com.easyjava.bean.TableInfo;
 import com.easyjava.utils.DateUtils;
+import com.easyjava.utils.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,21 @@ public class BuildPO {
                     bw.write(Constants.BEAN_DATE_UNFORMAT_CLASS);
                     bw.newLine();
                 }
+
+
+            //忽略属性  
+                Boolean haveIgnoreBean = false;
+            for(FieldInfo fieldInfo : tableInfo.getFieldList() ){
+                if (ArrayUtils.contains(Constants.IGNORE_BEAN_TOJSON_FIELD.split(","),fieldInfo.getPropertyName())){
+                    haveIgnoreBean = true;
+                    break;
+                }
+            }
+            if(haveIgnoreBean){
+                bw.write(Constants.IGNORE_BEAN_TOJSON_CLASS + ";");
+                bw.newLine();
+            }
+
                 //导入BigDecimal包
                 if (tableInfo.isHaveBigDecimal()){
                     bw.write("import java.math.BigDecimal;");
@@ -84,11 +100,66 @@ public class BuildPO {
                         bw.newLine();
                     }
 
+                    if(ArrayUtils.contains(Constants.IGNORE_BEAN_TOJSON_FIELD.split(","),fieldInfo.getPropertyName())){
+                        bw.write("\t" + String.format(Constants.IGNORE_BEAN_TOJSON_EXPRESSION,DateUtils.YYYY_MM_DD));
+                        bw.newLine();
+
+                    }
+
                     bw.write("\tprivate " + fieldInfo.getJavaType() + " "+ fieldInfo.getPropertyName() + ";" );
                     bw.newLine();
                     bw.newLine();
                 }
 
+                for(FieldInfo fieldInfo : tableInfo.getFieldList() ){
+
+                    String tempField = StringUtils.upperCaseFirstLetter(fieldInfo.getPropertyName());
+
+                    //构建set方法
+                    //  BuildComment.createMethodComment(bw,fieldInfo.getComment());
+                    bw.write("\tpublic void set" + tempField + "(" + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + ") {");
+                    bw.newLine();
+                    bw.write("\t\tthis." + fieldInfo.getPropertyName() + " = " + fieldInfo.getPropertyName() + ";");
+                    bw.newLine();
+                    bw.write("\t}");
+                    bw.newLine();
+                    bw.newLine();
+
+                    //构建get方法
+                   // BuildComment.createMethodComment(bw,fieldInfo.getComment());
+                    bw.write("\tpublic " + fieldInfo.getJavaType() + " get" + tempField + "() {");
+                    bw.newLine();
+                    bw.write("\t\treturn this." + fieldInfo.getPropertyName() + ";");
+                    bw.newLine();
+                    bw.write("\t}");
+                    bw.newLine();
+                    bw.newLine();
+
+
+                }
+
+                //重写toString方法
+            StringBuffer toString = new StringBuffer();
+            for (FieldInfo fieldInfo : tableInfo.getFieldList()) {
+                String propertyNameString = fieldInfo.getPropertyName();
+                if (ArrayUtils.contains(Constants.SQL_DATE_TYPES, fieldInfo.getSqlType())) {
+                    propertyNameString = "TimeUtils.format(" + fieldInfo.getPropertyName() + ", TimeFormatEnums.ISO_LOCAL_DATE.getFormat())";
+                } else if (ArrayUtils.contains(Constants.SQL_DATE_TIME_TYPES, fieldInfo.getSqlType())) {
+                    propertyNameString = "TimeUtils.format(" + fieldInfo.getPropertyName() + ", TimeFormatEnums.ISO_LOCAL_DATE_TIME_REPLACET2SPACE.getFormat())";
+                }
+                toString.append(fieldInfo.getComment() + ":\"" + " + " + "(" + fieldInfo.getPropertyName() + " == null ? \"空\" : " + propertyNameString + ")" + " + " + "\"");
+                toString.append(",");
+            }
+            String String = toString.substring(0, toString.lastIndexOf("+"));
+            //toString
+            bw.write("\t@Override");
+            bw.newLine();
+            bw.write("\tpublic String toString() {");
+            bw.newLine();
+            bw.write("\t\treturn \"" + String + ";");
+            bw.newLine();
+            bw.write("\t}");
+            bw.newLine();
 
                 bw.write("}");
                 bw.flush();
