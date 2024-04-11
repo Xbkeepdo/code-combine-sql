@@ -1,6 +1,5 @@
 package com.easyjava.bean;
 
-import com.easyjava.utils.JsonUtils;
 import com.easyjava.utils.PropertiesUtils;
 
 public class Constants {
@@ -10,15 +9,32 @@ public class Constants {
 
     private static String PATH_JAVA = "java";
     private static String PATH_RESOURCES= "resources";
-    public static String SUFFIX_BEAN_PARAM;
+    public static String SUFFIX_BEAN_QUERY;
+    public static String SUFFIX_BEAN_QUERY_FUZZY;
+    public static String SUFFIX_BEAN_QUERY_TIME_START;
+    public static String SUFFIX_BEAN_QUERY_TIME_END;
+    public static String SUFFIX_MAPPERS;
     public static String PATH_BASE;
     public static String PATH_PO;
+    public static String PATH_VO;
     public static String PATH_UTILS;
+    public static String PATH_ENUM;
+    public static String PATH_QUERY;
+    public static String PATH_MAPPERS;
+    public static String PATH_MAPPERS_XML;
+    public static String PATH_SERVICE;
+    public static String PATH_SERVICE_IMPL;
 
 
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
+    public static String PACKAGE_VO;
     public static String PACKAGE_UTILS;
+    public static String PACKAGE_ENUM;
+    public static String PACKAGE_QUERY;
+    public static String PACKAGE_MAPPERS;
+    public static String PACKAGE_SERVICE;
+    public static String PACKAGE_SERVICE_IMPL;
 
     //需要忽略的属性
     public static String IGNORE_BEAN_TOJSON_FIELD;
@@ -53,18 +69,35 @@ public class Constants {
 
 
         AUTHOR_COMMENT = PropertiesUtils.getString("author.comment");
-        SUFFIX_BEAN_PARAM = PropertiesUtils.getString("suffix.bean.param");
+        SUFFIX_BEAN_QUERY = PropertiesUtils.getString("suffix.bean.query");
         IGNORE_TABLE_PREFIX = Boolean.valueOf(PropertiesUtils.getString("ignore.table.prefix"));
+        SUFFIX_BEAN_QUERY_FUZZY = PropertiesUtils.getString("suffix.bean.query.fuzzy");
+        SUFFIX_BEAN_QUERY_TIME_START = PropertiesUtils.getString("suffix.bean.query.time.start");
+        SUFFIX_BEAN_QUERY_TIME_END = PropertiesUtils.getString("suffix.bean.query.time.end");
+        SUFFIX_MAPPERS = PropertiesUtils.getString("suffix.mappers");
 
         PACKAGE_BASE = PropertiesUtils.getString("package.base");
         PACKAGE_PO = PACKAGE_BASE + "." + PropertiesUtils.getString("package.po");
         PACKAGE_UTILS = PACKAGE_BASE + "." + PropertiesUtils.getString("package.utils");
+        PACKAGE_ENUM = PACKAGE_BASE + "." + PropertiesUtils.getString("package.enum");
+        PACKAGE_QUERY = PACKAGE_BASE + "." + PropertiesUtils.getString("package.query");
+        PACKAGE_MAPPERS = PACKAGE_BASE + "." + PropertiesUtils.getString("package.mappers");
+        PACKAGE_SERVICE = PACKAGE_BASE + "." + PropertiesUtils.getString("package.service");
+        PACKAGE_SERVICE_IMPL = PACKAGE_BASE + "." + PropertiesUtils.getString("package.service.impl");
+        PACKAGE_VO = PACKAGE_BASE + "." + PropertiesUtils.getString("package.vo");
+
 
         PATH_BASE = PropertiesUtils.getString("path.base");
         PATH_BASE = PATH_BASE  +PATH_JAVA+ "/";
         PATH_PO = PATH_BASE +"/"+ PACKAGE_PO.replace(".","/");
         PATH_UTILS = PATH_BASE +"/"+ PACKAGE_UTILS.replace(".","/");
-
+        PATH_ENUM = PATH_BASE +"/"+ PACKAGE_ENUM.replace(".","/");
+        PATH_QUERY = PATH_BASE +"/"+ PACKAGE_QUERY.replace(".","/");
+        PATH_MAPPERS = PATH_BASE +"/"+ PACKAGE_MAPPERS.replace(".","/");
+        PATH_MAPPERS_XML = PropertiesUtils.getString("path.base") + PATH_RESOURCES + "/" + PACKAGE_MAPPERS.replace(".","/");
+        PATH_SERVICE = PATH_BASE +"/"+ PACKAGE_SERVICE.replace(".","/");
+        PATH_SERVICE_IMPL = PATH_BASE +"/"+ PACKAGE_SERVICE_IMPL.replace(".","/");
+        PATH_VO = PATH_BASE +"/"+ PACKAGE_VO.replace(".","/");
     }
 
 

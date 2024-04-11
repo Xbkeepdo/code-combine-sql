@@ -1,14 +1,9 @@
 package com.easyjava;
 
 import com.easyjava.bean.TableInfo;
-import com.easyjava.builder.BuildBase;
-import com.easyjava.builder.BuildPO;
-import com.easyjava.builder.BuildTable;
+import com.easyjava.builder.*;
 
 import java.util.List;
-import java.util.logging.Logger;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 
 public class RunApplication {
@@ -18,6 +13,14 @@ public class RunApplication {
         BuildBase.execute();
         for(TableInfo tableInfo :tableInfoList ) {
             BuildPO.execute(tableInfo);
+
+            BuildBase.execute();
+            BuildQuery.execute(tableInfo);
+
+            BuildMapper.execute(tableInfo);
+            BuildMapperXml.execute(tableInfo);
+            BuildService.execute(tableInfo);
+            BuildServiceImpl.execute(tableInfo);
         }
     }
 }

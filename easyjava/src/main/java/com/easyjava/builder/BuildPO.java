@@ -45,6 +45,11 @@ public class BuildPO {
                     bw.newLine();
                     bw.write(Constants.BEAN_DATE_UNFORMAT_CLASS);
                     bw.newLine();
+
+                    bw.write("import " + Constants.PACKAGE_UTILS + ".DateUtils;");
+                    bw.newLine();
+                    bw.write("import " + Constants.PACKAGE_ENUM + ".DateTimePatternEnum;");
+                    bw.newLine();
                 }
 
 
@@ -78,6 +83,8 @@ public class BuildPO {
                     //构建字段注释
                     BuildComment.createFieldComment(bw,fieldInfo.getComment());
 
+
+
                     if(ArrayUtils.contains(Constants.SQL_DATE_TIME_TYPES,fieldInfo.getSqlType())){
                         //序列化
                         bw.write("\t"+String.format(Constants.BEAN_DATE_FORMAT_EXPRESSION, DateUtils.YYYY_MM_DD_HH_MM_SS));
@@ -99,6 +106,8 @@ public class BuildPO {
                         bw.write("\t"+String.format(Constants.BEAN_DATE_UNFORMAT_EXPRESSION, DateUtils.YYYY_MM_DD));
                         bw.newLine();
                     }
+
+
 
                     if(ArrayUtils.contains(Constants.IGNORE_BEAN_TOJSON_FIELD.split(","),fieldInfo.getPropertyName())){
                         bw.write("\t" + String.format(Constants.IGNORE_BEAN_TOJSON_EXPRESSION,DateUtils.YYYY_MM_DD));
@@ -140,23 +149,28 @@ public class BuildPO {
 
                 //重写toString方法
             StringBuffer toString = new StringBuffer();
+                Integer index = 0;
             for (FieldInfo fieldInfo : tableInfo.getFieldList()) {
-                String propertyNameString = fieldInfo.getPropertyName();
-                if (ArrayUtils.contains(Constants.SQL_DATE_TYPES, fieldInfo.getSqlType())) {
-                    propertyNameString = "TimeUtils.format(" + fieldInfo.getPropertyName() + ", TimeFormatEnums.ISO_LOCAL_DATE.getFormat())";
-                } else if (ArrayUtils.contains(Constants.SQL_DATE_TIME_TYPES, fieldInfo.getSqlType())) {
-                    propertyNameString = "TimeUtils.format(" + fieldInfo.getPropertyName() + ", TimeFormatEnums.ISO_LOCAL_DATE_TIME_REPLACET2SPACE.getFormat())";
+                index++;
+                String properName = fieldInfo.getPropertyName();
+                if (ArrayUtils.contains(Constants.SQL_DATE_TIME_TYPES,fieldInfo.getSqlType())){
+                    properName = "DateUtils.format(" + properName + ", DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern())";
+                }else if (ArrayUtils.contains(Constants.SQL_DATE_TYPES,fieldInfo.getSqlType())){
+                    properName = "DateUtils.format(" + properName + ", DateTimePatternEnum.YYYY_MM_DD.getPattern())";
                 }
-                toString.append(fieldInfo.getComment() + ":\"" + " + " + "(" + fieldInfo.getPropertyName() + " == null ? \"空\" : " + propertyNameString + ")" + " + " + "\"");
-                toString.append(",");
+                toString.append(fieldInfo.getComment() + ":\" +(" + fieldInfo.getPropertyName() + " == null ? \"空\" : " + properName + ")");
+                if (index < tableInfo.getFieldList().size()){
+                    toString.append(" + ").append("\",");
+                }
             }
-            String String = toString.substring(0, toString.lastIndexOf("+"));
+            String toStringStr = toString.toString();
+            toStringStr = "\"" + toStringStr ;
             //toString
             bw.write("\t@Override");
             bw.newLine();
             bw.write("\tpublic String toString() {");
             bw.newLine();
-            bw.write("\t\treturn \"" + String + ";");
+            bw.write("\t\treturn " + toStringStr + ";");
             bw.newLine();
             bw.write("\t}");
             bw.newLine();

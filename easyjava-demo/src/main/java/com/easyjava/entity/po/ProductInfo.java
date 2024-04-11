@@ -4,13 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
+import com.easyjava.utils.DateUtils;
+import com.easyjava.enums.DateTimePatternEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;;
 import java.math.BigDecimal;
 
 /**
  * @Description:商品信息实体类
  * @Author:xb
- * @date: 2024/03/30
+ * @date: 2024/04/12
  */
 public class ProductInfo implements Serializable {
 	/**
@@ -177,6 +179,6 @@ public class ProductInfo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "自增ID:" + (id == null ? "空" : id) + ",公司ID:" + (companyId == null ? "空" : companyId) + ",商品编号:" + (code == null ? "空" : code) + ",商品名称:" + (productName == null ? "空" : productName) + ",价格:" + (price == null ? "空" : price) + ",sku类型:" + (skuType == null ? "空" : skuType) + ",颜色类型:" + (colorType == null ? "空" : colorType) + ",创建时间:" + (createTime == null ? "空" : TimeUtils.format(createTime, TimeFormatEnums.ISO_LOCAL_DATE_TIME_REPLACET2SPACE.getFormat())) + ",创建日期:" + (createDate == null ? "空" : TimeUtils.format(createDate, TimeFormatEnums.ISO_LOCAL_DATE.getFormat())) + ",库存:" + (stock == null ? "空" : stock) + ",状态 0： 未上架 1：已上架:" + (status == null ? "空" : status) + ",0:删除 1：正常:" + (isDel == null ? "空" : isDel) ;
+		return "自增ID:" +(id == null ? "空" : id) + ",公司ID:" +(companyId == null ? "空" : companyId) + ",商品编号:" +(code == null ? "空" : code) + ",商品名称:" +(productName == null ? "空" : productName) + ",价格:" +(price == null ? "空" : price) + ",sku类型:" +(skuType == null ? "空" : skuType) + ",颜色类型:" +(colorType == null ? "空" : colorType) + ",创建时间:" +(createTime == null ? "空" : DateUtils.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern())) + ",创建日期:" +(createDate == null ? "空" : DateUtils.format(createDate, DateTimePatternEnum.YYYY_MM_DD.getPattern())) + ",库存:" +(stock == null ? "空" : stock) + ",状态 0： 未上架 1：已上架:" +(status == null ? "空" : status) + ",0:删除 1：正常:" +(isDel == null ? "空" : isDel);
 	}
 }
